@@ -3,7 +3,8 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-
+#connection bdd 
+# (declarer au préalables ses variables dans .env)
 def connect_db():
     dbName = os.getenv("dbName")
     dbUser = os.getenv("dbUser")
@@ -20,6 +21,7 @@ def connect_db():
     )
     return conn
 
+#fetch des enseignants
 def fetch_enseignants(cursor):
     cursor.execute('SELECT * FROM enseignants;')
     enseignants_dict = []
@@ -30,7 +32,7 @@ def fetch_enseignants(cursor):
         }
         enseignants_dict.append(enseignant_dict)
     return enseignants_dict
-
+#fetch des eleves
 def fetch_eleves(cursor):
     cursor.execute('SELECT * FROM eleves;')
     eleves_dict = []
@@ -50,9 +52,13 @@ def associate_students_with_teachers(enseignants, eleves):
         eleve['associes_a'] = 'Non trouvé'
         for enseignant in enseignants:
             if enseignant.get('Responsable') == eleve.get('Responsable'):
+                
+                #ici on compte cb d'enseignants sont associés a des étudiants
                 enseignant['nb_associes'] += 1
+                #combinaison eleve est associes a un enseignant
                 eleve['associes_a'] = enseignant.get('Enseignant')
 
+#print des resultats
 def print_res(enseignants, eleves):
     for enseignant in enseignants:
         print(f"L'enseignant : {enseignant.get('Enseignant')} a {enseignant.get('nb_associes')} élève(s) associé(s).")
