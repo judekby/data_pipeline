@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 #connection bdd 
-# (declarer au préalables ses variables dans .env)
+# (declaré au préalables ses variables dans .env)
 def connect_db():
     dbName = os.getenv("dbName")
     dbUser = os.getenv("dbUser")
